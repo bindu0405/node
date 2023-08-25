@@ -11,6 +11,6 @@ const studentSchema = new mongoose.Schema({
 
 })
 
-const studentDetails = mongoose.model("students",studentSchema);  //"students" is the collection name which created in the database
+const studentDetails = mongoose.model("students",studentSchema);  //"students" is the collection name which is created in the database
 
 module.exports = studentDetails;

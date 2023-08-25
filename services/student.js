@@ -19,6 +19,7 @@ async function fcnInsertStudent(data){
 
           
       }catch(err){
+        
         throw err;
       }
 }
@@ -32,9 +33,9 @@ async function fcnGetAllStudents(){
     try{
         let result = await studentDetails.find(); 
         console.log(result)
-        if(result.length == 0)
+        if(result.length == 0){
         return {message :"no data found"}
-
+        }
         return result;
     }catch(err){
         throw err;
@@ -48,7 +49,7 @@ async function fcnCountStudents(){
         if(result.length == 0){
         return {message :"no data found to count"}
         }
-        return {"count":result.length}
+        return {"count":result.length};
 
     }catch(err){
         throw err;

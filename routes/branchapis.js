@@ -2,16 +2,15 @@ const express=require('express');
 const router = express.Router()
 const {branchService} = require("../services/branch");
 
-router.post("/insertBranch", async function(req,res) {
+router.post("/insertBranch", async function(req,res){
   try{
-    let data = await branchService.fcnInsertBranch(req.body);
-    res.status(200).send(data);
-
-
+    let data = await branchService.fcnInsertBranch(req);    
+    res.status(200).send(data);                                                                              
+                                                                                                                                                                                                                                                                                                               
   }catch(err){
     throw err;
   }
-})
+})                                                                      
 
 router.get("/getAllBranch", async function(req,res){
   try{
@@ -34,3 +33,6 @@ router.get("/getOneBranch", async function(req, res){
 
 
 module.exports = router
+
+
+

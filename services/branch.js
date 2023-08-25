@@ -1,10 +1,13 @@
 const branchDetails = require("../models/branchmodel");
+let allResult; 
 
-
-async function fcnInsertBranch(data){
+async function fcnInsertBranch(){
       try{
-
-        let result = await new branchDetails({branchName: data.branchName,});
+        var check= await branchDetails.findOne()
+        if(check!=null){
+            return {message : "branch already exist."};
+        }
+        let result = await new branchDetails({branchName: allResult.branchName,});
         let dbResponse = await result.save();
           return {message :"Record Inserted"};
       }catch(err){
@@ -13,15 +16,16 @@ async function fcnInsertBranch(data){
 }
 
 
+
 async function fcnGetAllBranch(){
     try{
-        let result = await branchDetails.find();
-        console.log(result)
-        if(result.length == 0){
+         allResult = await branchDetails.find();
+        console.log(allResult)
+        if(allResult.length == 0){
         return {message :"no data found"}
         }
 
-        return result;
+        return allResult;
         
         //  not result.... then retun no data found
         //  return all branch.
