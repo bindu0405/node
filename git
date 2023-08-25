@@ -1,0 +1,20 @@
+example:    master or development or prodution or staging or testing
+
+Note:   1. all local changes must commit.
+        2. git checkout {branchName}.
+        3. git pull origin {branchName}.
+        4.  conflicts....  how to resolve conflicts---> search
+        5. git checkout {personalBranch}.  in case new branch --> git checkout -b {newBranchName}
+
+a
+b
+
+a
+b
+c
+
+
+
+        example :   a ----> changes------>  commit.
+                   checkout
+                   pull
