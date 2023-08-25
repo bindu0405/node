@@ -1,16 +1,17 @@
 const branchDetails = require("../models/branchmodel");
 
 
-async function fcnInsertBranch(data){
+async function fcnInsertBranch(){
       try{
 
-        let result = await new branchDetails({branchName: data.branchName,});
+        let result = await new branchDetails({branchName: req.body.branchName,});
         let dbResponse = await result.save();
           return {message :"Record Inserted"};
       }catch(err){
         throw err;
       }
 }
+
 
 
 async function fcnGetAllBranch(){

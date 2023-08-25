@@ -4,7 +4,7 @@ const {branchService} = require("../services/branch");
 
 router.post("/insertBranch", async function(req,res){
   try{
-    let data = await branchService.fcnInsertBranch(req.body);
+    let data = await branchService.fcnInsertBranch(req);    
     res.status(200).send(data);                                                                              
                                                                                                                                                                                                                                                                                                                
   }catch(err){
