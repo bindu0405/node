@@ -5,12 +5,14 @@ let port=3500;
 const connectDb=require('./db.js')
 const branchRoutes= require('./routes/branchapis.js')
 const studentRoutes=require("./routes/studentapis.js")
+const universityRoutes=require("./routes/universityapis.js")
 const { errorHandler } = require('./middlewares/errors.js')
 const app = express();
 //middleware
 app.use(bodyParser.json())
-app.use('/api/branch', branchRoutes)
+app.use(branchRoutes)
 app.use(studentRoutes)
+app.use(universityRoutes)
 app.use(errorHandler)
 
 connectDb()
