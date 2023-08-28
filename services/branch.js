@@ -1,13 +1,15 @@
 const branchDetails = require("../models/branchmodel");
 let allResult; 
 
-async function fcnInsertBranch(){
-      try{
-        var check= await branchDetails.findOne()
+async function fcnInsertBranch(req){
+    try{
+        for(i=0;i<allResult;i++){
+        var check= await branchDetails.findOne({branchName: allResult[i].branchName})
         if(check!=null){
             return {message : "branch already exist."};
         }
-        let result = await new branchDetails({branchName: allResult.branchName,});
+       }
+        let result = await new branchDetails({branchName: req.body.branchName,});
         let dbResponse = await result.save();
           return {message :"Record Inserted"};
       }catch(err){
@@ -50,14 +52,6 @@ async function fcnGetOneBranch(Branch){                        //(Branch contain
 
 
 //nodemon  
-
-
-
-
-
-
-
-
 
 exports.branchService ={
       fcnInsertBranch : fcnInsertBranch,
