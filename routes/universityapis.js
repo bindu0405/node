@@ -29,6 +29,7 @@ router.get("/getAllUniversities", async function(req, res){
 
   }catch(err){
     throw err;
+
   }
 })
 

@@ -18,8 +18,10 @@ app.use(errorHandler)
 connectDb()
 .then(()=>{
     console.log('dbconnection succeeded')
+    console.log("fksljdssd")
     app.listen(port,
     ()=>console.log('server started at: 3500'))
 })
 .catch(err=>console.log(err));
+
 

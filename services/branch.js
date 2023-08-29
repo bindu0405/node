@@ -36,9 +36,11 @@ async function fcnGetAllBranch(){
         throw err;
     }
 }
-async function fcnGetOneBranch(Branch){                        //(Branch contain the data what we have given in the req db)
+async function fcnGetOneBranch(Branch){
+    console.log(Branch,"brankjk")                        //(Branch contain the data what we have given in the req db)
     try{    
         let result= await branchDetails.findOne({branchName:Branch})
+     console.log(result,"rdefsds")
         if(result == null){
             return {message :"No data found"}
         }

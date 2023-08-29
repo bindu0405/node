@@ -23,8 +23,10 @@ router.get("/getAllBranch", async function(req,res){
 })
 
 router.get("/getOneBranch", async function(req, res){
+
   try{
-    let data = await branchService.fcnGetOneBranch(req.query.branchName);// req,  
+    console.log(req.body.branchName,"jfdshkdsk")
+    let data = await branchService.fcnGetOneBranch(req.body.branchName);// req,  
     res.status(200).send(data);
   }catch(err){
     throw err;
