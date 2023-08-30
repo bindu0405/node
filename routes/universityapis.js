@@ -2,6 +2,8 @@ const express=require('express');
 const router = express.Router()
 const {universityService} = require("../services/university");
 
+//date:28/08/2023
+
 router.post("/insertUniversity", async function(req,res){
   try{
     let data = await universityService.fcnInsertUniversity(req);    
@@ -33,6 +35,7 @@ router.get("/getAllUniversities", async function(req, res){
   }
 })
 
+//date:29/08/2023
 router.put("/updateUniversityBranch", async function(req, res){
     try{
         let data=await universityService.funUpdateUniversityBranch(req);

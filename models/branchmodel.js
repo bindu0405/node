@@ -1,8 +1,9 @@
 const mongoose=require("mongoose")
 
 const branchSchema = new mongoose.Schema({
-      branchName: {type: String},
-      universityName: {type: String} 
+      universityName: {type: String},
+      branchName: {type: String}
+
 })
 
 const branchDetails = mongoose.model("branch",branchSchema);

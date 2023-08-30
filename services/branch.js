@@ -1,15 +1,24 @@
 const branchDetails = require("../models/branchmodel");
 let allResult; 
-
+//date:30/08/2023
 async function fcnInsertBranch(req){
     try{
-        for(i=0;i<allResult;i++){
-        var check= await branchDetails.findOne({branchName: allResult[i].branchName})
+        var check= await branchDetails.find({universityName: req.body.universityName})
         if(check!=null){
-            return {message : "branch already exist."};
-        }
+            console.log(check, "123")
+            for(i=0;i<check.length;i++){
+                var checkBranches=await branchDetails.findOne({branchName: req.body.branchName})
+                if(checkBranches!=null){
+                    console.log(checkBranches, "abcd")
+                    return {message:"branch already existed"}
+                }
+            }
        }
-        let result = await new branchDetails({branchName: req.body.branchName,});
+        let result = await new branchDetails({
+            universityName: req.body.universityName,
+            branchName: req.body.branchName
+
+        });
         let dbResponse = await result.save();
           return {message :"Record Inserted"};
       }catch(err){
@@ -17,7 +26,7 @@ async function fcnInsertBranch(req){
       }
 }
 
-
+//end
 
 async function fcnGetAllBranch(){
     try{
@@ -53,10 +62,28 @@ async function fcnGetOneBranch(Branch){
 }
 
 
+async function funInsertOneField(college){
+    console.log(college, "abcd123");
+    try{
+        let check=await branchDetails.find();
+        console.log(check, "cvcvcv")
+        let result = await new branchDetails(check,college);
+        for(i=0;i<check.length;i++){
+        let dbResponse=await branchDetails.updateMany(check[i], {$set:{college}},{upsert:true, multi:true})
+        console.log(dbResponse, "123")
+        }
+        return result;
+        console.log(result, "12345")
+    }catch(err){
+        throw err;
+    }
+}
+
 //nodemon  
 
 exports.branchService ={
       fcnInsertBranch : fcnInsertBranch,
       fcnGetAllBranch:fcnGetAllBranch,
-      fcnGetOneBranch:fcnGetOneBranch
+      fcnGetOneBranch:fcnGetOneBranch,
+      funInsertOneField:funInsertOneField
 }

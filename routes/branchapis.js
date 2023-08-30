@@ -33,6 +33,15 @@ router.get("/getOneBranch", async function(req, res){
   }
 })
 
+router.put("/insertOneField", async function(req, res){
+   try{
+    let data = await branchService.funInsertOneField({collegeName:req.body.collegeName});
+    res.status(200).send(data);
+   }catch(err){
+    throw err;
+   }
+})
+
 
 module.exports = router
 

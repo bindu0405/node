@@ -69,7 +69,7 @@ async function fcnGetAllUniversities(){
 console.log(allResult, "1241345")
 async function funUpdateUniversityBranch(req){
     try{
-        //let arr=[];
+        
             var checkUniversity= await universityDetails.findOne({universityName: req.body.universityName});
             if(checkUniversity==null){
                 return {message : "university not found."};
@@ -92,21 +92,8 @@ async function funUpdateUniversityBranch(req){
                 let dbResponse = await universityDetails.updateOne(checkUniversity,{$push:{"branches":req.body.branches[0]}}); 
                 console.log(dbResponse,"dbrespoms");
                 return {message:"branch inserted successfully"}
-                console.log(checkUniversity,"12344");
             
-        }
-                
-
-            
-
-            /*else{
-                
-                var collection = universityDetails("university").updateOne({universityName: req.body.universityName}, {$set: {branches: req.body.brnaches}}, {upsert: true}, function(err,doc) {
-                  if (err) { throw err; }
-                  else { console.log("Updated"); }
-                });  
-                return checkUniversity;
-            }*/
+        }            
 
     }catch(err){
         throw err;
