@@ -33,6 +33,7 @@ router.get("/getOneBranch", async function(req, res){
   }
 })
 
+//date:30/08/2023
 router.put("/insertOneField", async function(req, res){
    try{
     let data = await branchService.funInsertOneField({collegeName:req.body.collegeName});
@@ -41,6 +42,9 @@ router.put("/insertOneField", async function(req, res){
     throw err;
    }
 })
+
+
+
 
 
 module.exports = router

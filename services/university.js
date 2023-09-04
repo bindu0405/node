@@ -66,7 +66,8 @@ async function fcnGetAllUniversities(){
     }
 }
 
-console.log(allResult, "1241345")
+
+//console.log(allResult, "1241345")
 async function funUpdateUniversityBranch(req){
     try{
         
@@ -100,9 +101,45 @@ async function funUpdateUniversityBranch(req){
     }
 }
 
+async function fcnDeleteOneUniversityBranch(req){
+    try{
+        var check= await universityDetails.findOne({universityName: req.body.universityName})
+        if(check==null){
+            console.log(check, "123")
+          return {message:"university not found"} 
+        }
+        else{ 
+
+            let arr=check.branches;
+            for(i=0;i<arr.length;i++){
+                if(arr.length!=0){
+                   console.log(arr[i])
+                   console.log(req.body.branches)
+                   if(req.body.branches[0]==arr[i]){
+                    let dbResponse = await universityDetails.deleteOne(check,{$delete:{"branches":arr[i]}});
+
+                    return {message:"branch deleted"}
+                   }
+                }
+            }
+                   
+                    return {message:"branch not found"}
+
+                   
+                 
+            
+        }
+      }catch(err){
+        throw err;
+      }
+}
+
+
 exports.universityService ={
     fcnInsertUniversity : fcnInsertUniversity,
     fcnGetOneUniversity:fcnGetOneUniversity,
     fcnGetAllUniversities:fcnGetAllUniversities,
-    funUpdateUniversityBranch:funUpdateUniversityBranch
+    funUpdateUniversityBranch:funUpdateUniversityBranch,      
+    fcnDeleteOneUniversityBranch:fcnDeleteOneUniversityBranch
+
 }

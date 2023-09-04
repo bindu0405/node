@@ -45,5 +45,17 @@ router.put("/updateUniversityBranch", async function(req, res){
     }
 })
 
+//date:04/09/2023
+
+router.put("/deleteOneUniversityBranch", async function(req, res){
+  try{
+   let data = await universityService.fcnDeleteOneUniversityBranch(req);
+   res.status(200).send(data);
+  }catch(err){
+   throw err;
+  }
+})
+
+
 
 module.exports = router
