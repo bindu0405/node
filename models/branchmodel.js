@@ -2,6 +2,7 @@ const mongoose=require("mongoose")
 
 const branchSchema = new mongoose.Schema({
       universityName: {type: String},
+      universityId: {type:Number},
       branchName: {type: String}
 
 })

@@ -2,7 +2,7 @@ const { join } = require("path/posix");
 const universityDetails = require("../models/universitymodel");
 let allResult; 
 
-async function fcnInsertUniversity(req,res){
+async function fcnInsertUniversity(req){
     try{
         var checkResult=await universityDetails.findOne({universityName:req.body.universityName});
         if(checkResult != null){
@@ -14,6 +14,7 @@ async function fcnInsertUniversity(req,res){
                 branches:req.body.branches
             })
             await data.save();
+            console.log(data, "==========")
             return ({message:"university added successfuly done"})
         }
            /* for(i=0;i<allResult;i++){
@@ -31,7 +32,7 @@ async function fcnInsertUniversity(req,res){
          
         
       }catch(err){
-          res.send(err)
+          throw err;
       }
 }
 
@@ -67,33 +68,40 @@ async function fcnGetAllUniversities(){
 }
 
 
-//console.log(allResult, "1241345")
 async function funUpdateUniversityBranch(req){
     try{
         
             var checkUniversity= await universityDetails.findOne({universityName: req.body.universityName});
-            if(checkUniversity==null){
-                return {message : "university not found."};
+        if(checkUniversity==null){
+            return {message : "university not found."};
+        }
+        else{
+        console.log(checkUniversity,"12344");
+        let arr1=req.body.branches;        
+        console.log(arr1.length,"========")
 
-            }
-            else{
-            console.log(checkUniversity,"12344");
-            let arr=checkUniversity.branches;
+        let arr=checkUniversity.branches;
+        console.log(arr,"++++++===")
+        for(j=0;j<arr1.length;j++){
+            let flag=true;
+
+            console.log(flag, j,"flag ---------------------- j")
             for(i=0;i<arr.length;i++){
-                if(arr.length!=0){
-                   console.log(arr)
-                   console.log(req.body.branches[0],)
-                   if(arr[i]==req.body.branches){
-                    return {message:"branch already existed"}
+                   if(arr1[j]==arr[i]){
+                    flag=false;
                    }
-                   
-                }  
             }
-                
-                let dbResponse = await universityDetails.updateOne(checkUniversity,{$push:{"branches":req.body.branches[0]}}); 
+            console.log(flag,"==========================");   
+            if(flag){            
+                let dbResponse = await universityDetails.findOneAndUpdate({universityName:req.body.universityName},{$push:{branches:arr1[j]}},{new:true}); 
                 console.log(dbResponse,"dbrespoms");
-                return {message:"branch inserted successfully"}
-            
+                //return {message:"branch inserted successfully"}
+            }
+            //return {message:"branch inserted successfully"}
+
+        }
+        return {message:"branch inserted successfully"}
+ 
         }            
 
     }catch(err){
@@ -111,21 +119,23 @@ async function fcnDeleteOneUniversityBranch(req){
         else{ 
 
             let arr=check.branches;
+            let arr1=req.body.branches;
+            console.log(arr,"===========")
+            console.log(arr1, "++++++")
+            for(j=0;j<arr1.length;j++){
             for(i=0;i<arr.length;i++){
-                if(arr.length!=0){
-                   console.log(arr[i])
                    console.log(req.body.branches)
-                   if(req.body.branches[0]==arr[i]){
-                    let dbResponse = await universityDetails.deleteOne(check,{$delete:{"branches":arr[i]}});
+                   if(arr1[j]==arr[i]){
+                    let dbResponse = await universityDetails.updateOne({universityName: req.body.universityName},{$pull:{"branches":arr[i]}});
 
-                    return {message:"branch deleted"}
+                    //return {message:"branch deleted"}
                    }
                 }
             }
-                   
-                    return {message:"branch not found"}
+                    //return {message:"branch not found"}
 
-                   
+                    return {message:"branch deleted"}
+   
                  
             
         }

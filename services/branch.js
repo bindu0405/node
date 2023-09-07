@@ -62,18 +62,46 @@ async function fcnGetOneBranch(Branch){
 }
 
 
-async function funInsertOneField(college){
-    console.log(college, "abcd123");
+async function funInsertOneField(req){
     try{
-        let check=await branchDetails.find();
-        console.log(check, "cvcvcv")
-        let result = await new branchDetails(check,college);
-        for(i=0;i<check.length;i++){
-        let dbResponse=await branchDetails.updateMany(check[i], {$set:{college}},{upsert:true, multi:true})
+        let check=await branchDetails.findOne({universityName:req.body.universityName});
+        //console.log(check, "======")
+        if(check==null){
+            return {message:"university not found"}
+        }
+        //let flag=true;
+    
+            let flag=true;
+
+            if("universityId" in check){  // condition == true false < > ! != "ABC" !=2   data:{k1:}  if(k1 in data)
+                flag=false;
+            } 
+        if(flag){       
+        let result=await branchDetails.updateOne({universityName:req.body.universityName}, {$set:{"universityId":req.body.universityId}})
+        let dbResponse=await result.save;
         console.log(dbResponse, "123")
         }
-        return result;
-        console.log(result, "12345")
+        return {message:"new field inserted"}
+
+        
+
+    }catch(err){
+        throw err;
+    }
+}
+
+async function fundeleteOneFiled(req){
+    try{
+        let check=await branchDetails.findOne({universityName:req.body.universityName});
+        if(check==null){
+            return {message:"university not found"}
+        }
+        let result =await branchDetails.updateOne({universityName:req.body.universityName}, {$unset:{"universityId":req.body.universityId}});
+        let dbResponse=await result.save;
+        return {message:" field deleted"}
+        
+
+
     }catch(err){
         throw err;
     }
@@ -87,5 +115,6 @@ exports.branchService ={
       fcnInsertBranch : fcnInsertBranch,
       fcnGetAllBranch:fcnGetAllBranch,
       fcnGetOneBranch:fcnGetOneBranch,
-      funInsertOneField:funInsertOneField
+      funInsertOneField:funInsertOneField,
+      fundeleteOneFiled:fundeleteOneFiled
 }

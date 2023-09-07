@@ -36,11 +36,21 @@ router.get("/getOneBranch", async function(req, res){
 //date:30/08/2023
 router.put("/insertOneField", async function(req, res){
    try{
-    let data = await branchService.funInsertOneField({collegeName:req.body.collegeName});
+    let data = await branchService.funInsertOneField(req);
     res.status(200).send(data);
    }catch(err){
     throw err;
    }
+})
+
+//date:06/09/2023
+router.put("/deleteOneField", async function(req,res){
+  try{
+    let data = await branchService.fundeleteOneFiled(req);
+    res.status(200).send(data);
+  }catch(err){
+    throw err;
+  }
 })
 
 
