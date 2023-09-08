@@ -14,6 +14,15 @@ router.post("/insertStudent", async function(req,res) {
       throw err;
     }
   })
+
+  router.post("/insertStudentForUniversity",async function(req, res){
+    try{
+      let data=await studentService.fcnInsertStudentForUniversity(req);
+      res.status(200).send(data);
+    }catch(err){
+      throw err;
+    }
+  })
   
   router.get("/getAllStudents", async function(req,res){
     try{
@@ -32,6 +41,15 @@ router.post("/insertStudent", async function(req,res) {
         res.status(200).send(data);
     }catch(err){
         throw err;
+    }
+  })
+
+  router.put("/countuniversitystudents", async function(req, res){
+    try{
+      let data= await studentService.fcnCountUniversityStudents(req);
+      res.status(200).send(data);
+    }catch(err){
+      throw err;
     }
   })
 

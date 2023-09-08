@@ -64,23 +64,21 @@ async function fcnGetOneBranch(Branch){
 
 async function funInsertOneField(req){
     try{
-        let check=await branchDetails.findOne({universityName:req.body.universityName});
-        //console.log(check, "======")
+        /*let check=await branchDetails.findOne({universityName:req.body.universityName});
         if(check==null){
             return {message:"university not found"}
         }
-        //let flag=true;
     
             let flag=true;
 
             if("universityId" in check){  // condition == true false < > ! != "ABC" !=2   data:{k1:}  if(k1 in data)
                 flag=false;
             } 
-        if(flag){       
-        let result=await branchDetails.updateOne({universityName:req.body.universityName}, {$set:{"universityId":req.body.universityId}})
+        if(flag){  */     
+        let result=await branchDetails.updateMany({}, {$set:{"universityId":req.body.universityId}},{multi:true})
         let dbResponse=await result.save;
         console.log(dbResponse, "123")
-        }
+       // }
         return {message:"new field inserted"}
 
         
