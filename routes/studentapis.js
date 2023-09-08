@@ -14,7 +14,7 @@ router.post("/insertStudent", async function(req,res) {
       throw err;
     }
   })
-
+   //date:07/09/2023
   router.post("/insertStudentForUniversity",async function(req, res){
     try{
       let data=await studentService.fcnInsertStudentForUniversity(req);
@@ -43,7 +43,17 @@ router.post("/insertStudent", async function(req,res) {
         throw err;
     }
   })
+  //date:08/09/2023
+  router.get("/countUniversities", async function(req, res){
+    try{
+      let data=await studentService.fcnCountUniversities();
+      res.status(200).send(data);
+    }catch(err){
+      throw err;
+    }
+  })
 
+    //date:08/09/2023
   router.put("/countuniversitystudents", async function(req, res){
     try{
       let data= await studentService.fcnCountUniversityStudents(req);

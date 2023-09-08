@@ -2,6 +2,7 @@ const studentDetails = require("../models/studentmodel");
 const branchDetails=require("../models/branchmodel")
 const university=require("../models/universitymodel");    //we assume university as any type this is our assumption but we should give the file path for the required file
 const { branchService } = require("./branch");
+const { json } = require("body-parser");
 async function fcnInsertStudent(data){
       try{
         var checkBranch=await branchDetails.findOne({branchName:data.branchName})
@@ -94,26 +95,45 @@ async function fcnCountStudents(){
     }
 }
 
+async function fcnCountUniversities(){
+    try{ 
+        let check= await studentDetails.find().select({universityName:1});
+        if(check.length == 0){
+            return {message:"no universities found"}
+        }
+        
+
+
+        
+       return check;
+
+    }catch(err){
+        throw err;
+    }
+}
+
 async function fcnCountUniversityStudents(req){
     try{
+        let checkBranches=await university.findOne({universityName:req.body.universityName})
+
         let check=await studentDetails.find({universityName:req.body.universityName})
         console.log(check)
         if(check.length==0){
             return {message:"university name not found"}
         }
+        let arr=checkBranches.branches;
+         let branchArray=[];
+        for(i=0;i<arr.length;i++){
+            let count = 0;   
+            for(j=0;j<check.length;j++){
+                if(arr[i]==check[j].branchName){
 
-        for(i=0;i<check.length;i++){
-            console.log(check[i].branchName)
-        }
-        let result= await studentDetails.countDocuments({universityName:req.body.universityName})
-        console.log(result);
-        console.log(req.body.universityName.branchName)
-        
-        if(result.length == 0){
-            return {message :"no data found to count"}
+                    count=count+1;
+                }
             }
-        
-            return {universityName:req.body.universityName,"studentCount":result};
+            branchArray.push({universityName:req.body.universityName,branch:arr[i],noOfStudents:count})
+        }
+           return branchArray;
         
     
     }catch(err){
@@ -127,6 +147,7 @@ exports.studentService={
     fcnGetAllStudents:fcnGetAllStudents,
     fcnCountStudents:fcnCountStudents,
     fcnInsertStudentForUniversity:fcnInsertStudentForUniversity,
-    fcnCountUniversityStudents:fcnCountUniversityStudents
+    fcnCountUniversityStudents:fcnCountUniversityStudents,
+    fcnCountUniversities:fcnCountUniversities
 
 }
