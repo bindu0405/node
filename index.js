@@ -6,6 +6,7 @@ const connectDb=require('./db.js')
 const branchRoutes= require('./routes/branchapis.js')
 const studentRoutes=require("./routes/studentapis.js")
 const universityRoutes=require("./routes/universityapis.js")
+const lecturerRoutes=require("./routes/lecturerapi.js")
 const { errorHandler } = require('./middlewares/errors.js')
 const app = express();
 //middleware
@@ -13,6 +14,7 @@ app.use(bodyParser.json())
 app.use(branchRoutes)
 app.use(studentRoutes)
 app.use(universityRoutes)
+app.use(lecturerRoutes)
 app.use(errorHandler)
 
 connectDb()
