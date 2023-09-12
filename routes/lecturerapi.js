@@ -2,7 +2,7 @@ const express=require("express");
 const router=express.Router();
 const {lecturerService}=require("../services/lecturer")
 
-//date:11/09/2023
+//date:11/09/2023 ,12/09/2023
 router.post("/insertLecturerForUniversity", async function(req, res){
     try{
         let data=await lecturerService.funInsertLecturerForUniversity(req);
@@ -12,7 +12,7 @@ router.post("/insertLecturerForUniversity", async function(req, res){
     }
 })
 
-//date:11/09/2023
+//date:11/09/2023 , 12/09/2023
 router.get("/getLectureDetails", async function(req, res){
     try{
         let data=await lecturerService.funGetLecturerDetails(req)
@@ -21,7 +21,7 @@ router.get("/getLectureDetails", async function(req, res){
         throw err;
     }
 })
-//date:11/09/2023
+//date:11/09/2023 , 12/09/2023
 router.get("/getTotalLecturerCount", async function(req, res){
     try{
         let data=await lecturerService.fcnGetTotalLecturerCount(req)
