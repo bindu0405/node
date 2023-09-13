@@ -1,7 +1,7 @@
 const express=require('express');
 const router = express.Router()
 const {branchService} = require("../services/branch");
-
+//date: 05/09/2023
 router.post("/insertBranch", async function(req,res){
   try{
     let data = await branchService.fcnInsertBranch(req);    
@@ -12,6 +12,8 @@ router.post("/insertBranch", async function(req,res){
   }
 })                                                                      
 
+//date: 05/09/2023
+
 router.get("/getAllBranch", async function(req,res){
   try{
     let data = await branchService.fcnGetAllBranch();
@@ -21,6 +23,8 @@ router.get("/getAllBranch", async function(req,res){
     throw err;
   }
 })
+
+//date: 05/09/2023
 
 router.get("/getOneBranch", async function(req, res){
 
