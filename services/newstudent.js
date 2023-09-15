@@ -1,6 +1,7 @@
 const lecturer=require("../models/lecturer");
 const newStudent=require("../models/newstudent");
 const university=require("../models/universitymodel")
+const newUniversity=require("../models/university")
 const { lecturerService } = require("./lecturer");
 
 async function fcnInsertNewStudent(req){
@@ -44,6 +45,84 @@ async function fcnInsertNewStudent(req){
         throw err;
     }
 }
+
+async function fcnInsertNewStudentForUniversity(req){
+    try{
+       let check=await newUniversity.findOne({universityName:req.body.universityName})
+        if(check==null){
+            return {message:"university not found"}
+        }else{
+        //let array=[]
+        //let sum=0
+        //let flag=false;
+        for(k=0;k<check.Branches.length;k++){
+            
+
+            if(check.Branches[k].branchName==req.body.branch){
+                let sum=0;
+                if(sum<check.Branches[k].noOfSeats){
+                     sum=sum+1;
+                    console.log(sum, "77777777")
+                    let checkLecturer=await lecturer.findOne({universityName:req.body.universityName})
+                    console.log(checkLecturer, "========")
+                    let array=[]
+                    let flag=false;
+                    for(i=0;i<checkLecturer.lecturer.length;i++){
+                    console.log(checkLecturer.lecturer[i], "999999999999999999")
+                        for(j=0;j<checkLecturer.lecturer[i].branches.length;j++){
+                            if(checkLecturer.lecturer[i].branches[j]==req.body.branch){
+                                flag=true;
+                                array.push(checkLecturer.lecturer[i]);
+                            }
+                        }
+                    }
+                    if(flag){
+                        let result=await new newStudent({
+                            universityName:req.body.universityName,
+                            studentName:req.body.studentName,
+                            branch:req.body.branch,
+                            lecturer:array,
+                            joinedDate:req.body.joinedDate,
+                            rollNo:sum
+            
+            
+                        })
+                        let dbResponse=await result.save();
+                        console.log(result, "=========")
+                        return {message:" new student inserted"}
+                    }
+                    return {message:"no lecturer found to be assign for the student"}
+               
+                }else{
+                    return {message:"seats not available for that particular branch"}
+                }
+            }else{
+                return {messge:"given branch not available for that particular university"}
+            }
+        }
+        if(flag){
+            let result=await new newStudent({
+                universityName:req.body.universityName,
+                studentName:req.body.studentName,
+                branch:req.body.branch,
+                lecturer:array,
+                joinedDate:req.body.joinedDate,
+                rollNo:sum
+
+
+            })
+            let dbResponse=await result.save();
+            console.log(result, "=========")
+            return {message:" new student inserted"}
+        }
+        return {message:"no lecturer found to be assign for the student"}
+
+    }
+    }catch(err){
+        throw err;
+    }
+}
+
 
 async function fcnGetStudentJoinedDateLatest(req){
     try{
@@ -102,21 +181,23 @@ async function fcnTotalStudentsForEachBranch(req){
         }
          let arr=[]
 
-        let branchCount =0;
+        
         let checkBranch=await university.findOne({universityName:req.body.universityName})
 
             for(let i=0;i<checkBranch.branches.length;i++){
                 let sum=0;
+                console.log(check.branch)
 
                 for(let j=0;j<check.length;j++){
+                    console.log(check[j].branch)
 
                     if(checkBranch.branches[i]==check[j].branch){
-                        branchCount=sum+1;
+                        sum=sum+1;
                     }
                     
                }
-               //let branch=checkBranch.branches[i]        
-                arr.push({branch: checkBranch.branches[i],branchCount:branchCount})        
+               console.log(checkBranch.branches[i],"after for loop");
+                arr.push({branch: checkBranch.branches[i],branchCount:sum})        
             }
             console.log(arr, "===")
             return arr;
@@ -129,5 +210,6 @@ exports.newStudentService={
     fcnInsertNewStudent:fcnInsertNewStudent,
     fcnGetStudentJoinedDateLatest:fcnGetStudentJoinedDateLatest,
     fcnGetStudentJoinedDatePast:fcnGetStudentJoinedDatePast,
-    fcnTotalStudentsForEachBranch:fcnTotalStudentsForEachBranch
+    fcnTotalStudentsForEachBranch:fcnTotalStudentsForEachBranch,
+    fcnInsertNewStudentForUniversity:fcnInsertNewStudentForUniversity
 }
