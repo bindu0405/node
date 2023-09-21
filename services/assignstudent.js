@@ -27,15 +27,10 @@ async function fcnInsertStudentWithRollNo(req){
                             return {message:"student details inserted"}
 
                         }else{
+                            
                             console.log(checkResult.length, "1234")
-                            for(j=0;j<checkResult.length;j++){
-                                console.log(checkResult.length, "1234")
-                                if(checkResult[j].studentRollNo==req.body.studentRollNo){
-                                    dbResponse=await student.updateOne({universityName:req.body.universityName, Branch:req.body.Branch},{$push:{subjects:req.body.subjects}});
-                                    return {message:"student details updated"}
-                                }
-                            }
-
+                            dbResponse=await student.updateOne({universityName:req.body.universityName, Branch:req.body.Branch, studentRollNo:req.body.studentRollNo},{$push:{subjects:req.body.subjects}});
+                            return {message:"student details updated"}
                         }
                     }
                 }
