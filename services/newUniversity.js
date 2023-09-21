@@ -4,7 +4,7 @@ async function fcnInsertUniversityDetails(req){
     try{
         let dbResponse;
         let check=await univeristy.findOne({universityName:req.body.universityName})
-        //console.log(check, "======")
+        console.log(check, "======")
         if(check==null){
             
             let  result=await new univeristy({
@@ -23,12 +23,13 @@ async function fcnInsertUniversityDetails(req){
                         return {message:"noOfSeats is greaterthan the previous result so value updated"}
                     }
                     return {message:"given noOfSeats is lessthan the previous result so it does not be modified"}
-                }else{
+                }
+            }
                 dbResponse=await univeristy.updateOne({universityName:req.body.universityName}, {$push:{"Branches":req.body.Branches}})
                 return {message:"university updated with one branch details"}
-                }
+                
 
-            }
+            
         }      
         
     }catch(err){

@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
 const studentSchema=new mongoose.Schema({
+    universityName:{type:String},
     Branch:{type:String},
     studentRollNo:{type:Number}, 
     subjects:[{

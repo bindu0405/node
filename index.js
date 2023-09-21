@@ -9,6 +9,7 @@ const universityRoutes=require("./routes/universityapis.js")
 const lecturerRoutes=require("./routes/lecturerapi.js")
 const newStudentRoutes=require("./routes/newstudentapi.js")
 const newUniveristyRoutes=require("./routes/newuniversityapis.js")
+const nextStudentRoutes=require("./routes/assignstudentapi.js")
 const { errorHandler } = require('./middlewares/errors.js')
 const app = express();
 //middleware
@@ -19,6 +20,7 @@ app.use(universityRoutes)
 app.use(lecturerRoutes)
 app.use(newStudentRoutes)
 app.use(newUniveristyRoutes)
+app.use(nextStudentRoutes)
 app.use(errorHandler)
 
 connectDb()

@@ -52,72 +52,48 @@ async function fcnInsertNewStudentForUniversity(req){
         if(check==null){
             return {message:"university not found"}
         }else{
-        //let array=[]
-        //let sum=0
-        //let flag=false;
-        for(k=0;k<check.Branches.length;k++){
-            
+                
+                for(k=0;k<check.Branches.length;k++){
 
-            if(check.Branches[k].branchName==req.body.branch){
-                let sum=0;
-                if(sum<check.Branches[k].noOfSeats){
-                     sum=sum+1;
-                    console.log(sum, "77777777")
-                    let checkLecturer=await lecturer.findOne({universityName:req.body.universityName})
-                    console.log(checkLecturer, "========")
-                    let array=[]
-                    let flag=false;
-                    for(i=0;i<checkLecturer.lecturer.length;i++){
-                    console.log(checkLecturer.lecturer[i], "999999999999999999")
-                        for(j=0;j<checkLecturer.lecturer[i].branches.length;j++){
-                            if(checkLecturer.lecturer[i].branches[j]==req.body.branch){
-                                flag=true;
-                                array.push(checkLecturer.lecturer[i]);
+
+                    if(check.Branches[k].branchName==req.body.branch){
+                        let checkBranch=await newStudent.find({universityName:req.body.universityName,branch:req.body.branch})
+                        if(checkBranch.length==0){
+                                let result=await new newStudent({
+                                    universityName:req.body.universityName,
+                                    studentName:req.body.studentName,
+                                    branch:req.body.branch,
+                                    joinedDate:req.body.joinedDate,
+                                    rollNo:1
+                                })
+            
+                
+                            dbResponse=await result.save();
+
+                        }else{
+                        
+                            let a=checkBranch.length+1
+                            if(check.Branches[k].noOfSeats>=a){
+                                let result=await new newStudent({
+                                    universityName:req.body.universityName,
+                                    studentName:req.body.studentName,
+                                    branch:req.body.branch,
+                                    joinedDate:req.body.joinedDate,
+                                    rollNo:a
+                                })
+
+            
+                                dbResponse=await result.save();
+
+                            }else{
+                                return {message:"No seats available"};
                             }
                         }
                     }
-                    if(flag){
-                        let result=await new newStudent({
-                            universityName:req.body.universityName,
-                            studentName:req.body.studentName,
-                            branch:req.body.branch,
-                            lecturer:array,
-                            joinedDate:req.body.joinedDate,
-                            rollNo:sum
-            
-            
-                        })
-                        let dbResponse=await result.save();
-                        console.log(result, "=========")
-                        return {message:" new student inserted"}
-                    }
-                    return {message:"no lecturer found to be assign for the student"}
-               
-                }else{
-                    return {message:"seats not available for that particular branch"}
                 }
-            }else{
-                return {messge:"given branch not available for that particular university"}
+    
             }
-        }
-        if(flag){
-            let result=await new newStudent({
-                universityName:req.body.universityName,
-                studentName:req.body.studentName,
-                branch:req.body.branch,
-                lecturer:array,
-                joinedDate:req.body.joinedDate,
-                rollNo:sum
-
-
-            })
-            let dbResponse=await result.save();
-            console.log(result, "=========")
-            return {message:" new student inserted"}
-        }
-        return {message:"no lecturer found to be assign for the student"}
-
-    }
+         return{message :"Student Inserted"};
     }catch(err){
         throw err;
     }

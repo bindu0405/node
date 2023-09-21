@@ -3,9 +3,9 @@ const newStudentSchema=new mongoose.Schema({
     universityName: {type:String},
     studentName: {type:String},
     branch: {type:String},
-    lecturer: {type:Array},
+    //lecturer: {type:Array},
     joinedDate: {type:Date},
-    rollNo: {type:String}
+    rollNo: {type:Number}
 })
  
 const newStudentDetails=mongoose.model("newStudent",newStudentSchema)
