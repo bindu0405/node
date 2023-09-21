@@ -1,13 +1,13 @@
-const univeristy = require("../models/university");
+const university = require("../models/university");
 
 async function fcnInsertUniversityDetails(req){
     try{
         let dbResponse;
-        let check=await univeristy.findOne({universityName:req.body.universityName})
+        let check=await university.findOne({universityName:req.body.universityName})
         console.log(check, "======")
         if(check==null){
             
-            let  result=await new univeristy({
+            let  result=await new university({
                 universityName:req.body.universityName,
                 Branches:req.body.Branches
             })
@@ -19,13 +19,13 @@ async function fcnInsertUniversityDetails(req){
             for(let i=0;i<check.Branches.length;i++){
                 if(check.Branches[i].branchName == req.body.Branches[0].branchName){
                     if(check.Branches[i].noOfSeats <= req.body.Branches[0].noOfSeats){
-                        dbResponse=await univeristy.updateOne({universityName:req.body.universityName},{$set: {Branches:[{"branchName":req.body.Branches[0].branchName,"noOfSeats":req.body.Branches[0].noOfSeats}]}})
+                        dbResponse=await university.updateOne({universityName:req.body.universityName},{$set: {Branches:[{"branchName":req.body.Branches[0].branchName,"noOfSeats":req.body.Branches[0].noOfSeats}]}})
                         return {message:"noOfSeats is greaterthan the previous result so value updated"}
                     }
                     return {message:"given noOfSeats is lessthan the previous result so it does not be modified"}
                 }
             }
-                dbResponse=await univeristy.updateOne({universityName:req.body.universityName}, {$push:{"Branches":req.body.Branches}})
+                dbResponse=await university.updateOne({universityName:req.body.universityName}, {$push:{"Branches":req.body.Branches}})
                 return {message:"university updated with one branch details"}
                 
 
