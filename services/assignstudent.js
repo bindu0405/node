@@ -40,7 +40,32 @@ async function fcnInsertStudentWithRollNo(req){
     }
 }
 
+async function fcnDeleteStudentWithRollNo(req){
+    try{
+        let check=await student.find({universityName:req.body.universityName, Branch:req.body.Branch})
+        console.log(check, "1234")
+        if(check.length==0){
+            return {message:"branch not found"}
+        }   
+        else{
+            for(i=0;i<check.length;i++){
+                if(check[i].studentRollNo==req.body.studentRollNo){
+                    console.log("asf")
+                    let dbResponse=await student.findOneAndDelete({universityName:req.body.universityName, Branch:req.body.Branch, studentRollNo:req.body.studentRollNo})
+                    return {message:"student details deleted."}
+                }
+            
+            }
+            return {message:"student rollno not found"}
+        }    
+
+    }catch(err){
+        throw err;
+    }
+}
+
 exports.studentServices={
-    fcnInsertStudentWithRollNo:fcnInsertStudentWithRollNo   
+    fcnInsertStudentWithRollNo:fcnInsertStudentWithRollNo,
+    fcnDeleteStudentWithRollNo:fcnDeleteStudentWithRollNo  
 
 }
