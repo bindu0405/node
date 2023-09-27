@@ -33,8 +33,7 @@ async function fcnInsertStudentWithRollNo(req){
                 }    
             
             } 
-               return {message:"studentRollNo not found"}
-            
+            return {message:"studentRollNo not found"}            
         }
     }catch(err){
         throw err;

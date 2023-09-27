@@ -25,8 +25,8 @@ async function fcnInsertUniversityDetails(req){
                     return {message:"given noOfSeats is lessthan the previous result so it does not be modified"}
                 }
             }
-                dbResponse=await university.updateOne({universityName:req.body.universityName}, {$push:{"Branches":req.body.Branches}})
-                return {message:"university updated with one branch details"}
+            dbResponse=await university.updateOne({universityName:req.body.universityName}, {$push:{"Branches":req.body.Branches}})
+            return {message:"university updated with one branch details"}
                 
 
             
@@ -37,6 +37,30 @@ async function fcnInsertUniversityDetails(req){
     }
 }
 
+async function deleteOneBranchFromUniversity(req){
+    try{
+        let check=await university.findOne({universityName:req.body.universityName})
+        console.log(check, "popop")
+        if(check==null){
+            return {message:"university not found"}
+        }else{
+            console.log("in else")
+            for(let i=0;i<check.Branches.length;i++){
+                console.log(check.Branches[i]);
+                if(check.Branches[i].branchName==req.body.branch){
+                    let dbResponse=await university.updateOne({universityName:req.body.universityName},{$pull:{"Branches":{"branchName":req.body.branch}}})
+                    return {message:"branch deleted"}
+                }                
+            }
+            return {message:"branch not found"}
+        } 
+    
+    }catch(err){
+        throw err;
+    }
+}
+
 exports.newUniversityService={
-    fcnInsertUniversityDetails:fcnInsertUniversityDetails
+    fcnInsertUniversityDetails:fcnInsertUniversityDetails,
+    deleteOneBranchFromUniversity:deleteOneBranchFromUniversity
 }

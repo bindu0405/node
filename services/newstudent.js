@@ -53,9 +53,7 @@ async function fcnInsertNewStudentForUniversity(req){
             return {message:"university not found"}
         }else{
                 
-                for(k=0;k<check.Branches.length;k++){
-
-
+                for(k=0;k<check.Branches.length;k++){ss
                     if(check.Branches[k].branchName==req.body.branch){
                         let checkBranch=await newStudent.find({universityName:req.body.universityName,branch:req.body.branch})
                         if(checkBranch.length==0){
@@ -66,8 +64,6 @@ async function fcnInsertNewStudentForUniversity(req){
                                     joinedDate:req.body.joinedDate,
                                     rollNo:1
                                 })
-            
-                
                             dbResponse=await result.save();
 
                         }else{

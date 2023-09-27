@@ -4,7 +4,8 @@ const universitySchema=new mongoose.Schema({
     Branches:[{
         branchName: {type:String}, 
         noOfSeats: {type:Number}
-    }]
+    }],
+    branch:{type:String}
 })
 
 const universityDetails=mongoose.model("newUniversity", universitySchema);

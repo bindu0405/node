@@ -12,4 +12,17 @@ router.post("/insertNewUniversity.com", async function(req, res){
         throw err;
     }
 }) 
+
+//date:22/09/2023
+
+router.put("/deleteOneBranchFromUniversity", async function(req, res){
+    try{
+    let data=await newUniversityService.deleteOneBranchFromUniversity(req);
+    res.status(200).send(data);
+    }catch(err){
+        throw err;
+    }
+}) 
+
+
 module.exports=router;

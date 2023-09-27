@@ -12,7 +12,7 @@ router.post("/insertNewStudent", async function(req,res){
     }
 })
 
-//date:14/09/2023, 15/09/2023
+//date:15/09/2023, 19/09/2023
 router.put("/InsertingStudentUniversityBranchLecturer", async function(req, res){
     try{
         let data=await newStudentService.fcnInsertNewStudentForUniversity(req);
