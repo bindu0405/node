@@ -2,7 +2,7 @@ const { join } = require("path/posix");
 const universityDetails = require("../models/universitymodel");
 let allResult; 
 
-async function fcnInsertUniversity(req,res){
+async function fcnInsertUniversity(req){
     try{
         var checkResult=await universityDetails.findOne({universityName:req.body.universityName});
         if(checkResult != null){
@@ -14,6 +14,7 @@ async function fcnInsertUniversity(req,res){
                 branches:req.body.branches
             })
             await data.save();
+            console.log(data, "==========")
             return ({message:"university added successfuly done"})
         }
            /* for(i=0;i<allResult;i++){
@@ -31,7 +32,7 @@ async function fcnInsertUniversity(req,res){
          
         
       }catch(err){
-          res.send(err)
+          throw err;
       }
 }
 
@@ -69,57 +70,86 @@ async function fcnGetAllUniversities(){
 
 async function funUpdateUniversityBranch(req){
     try{
-        var arr=[]        
-            var checkUniversity= await universityDetails.findOne({universityName: req.body.universityName});
-            if(checkUniversity==null){
-                return {message : "university not found."};
-
-            }
-            else{
-                for (let i= 0; i< checkUniversity.branches.length; i++) {
-                   
-                    //console.log(checkUniversity.branches[i],"Branch")
-                    arr.push(checkUniversity.branches[i]);
-
-                for (let j= 0; j< req.body.branches.length; j++) {
-                    
-                    arr.push(req.body.branches[j])
-                    if(checkUniversity.branches[i]==req.body.branches[j]){
-                        checkUniversity.branches[i].push(req.body.branches[j])
-                     }
-                }
-                
-                }
-                
-            
-
-               
-            return checkUniversity;
-            //    var checkBranches= await universityDetails.findOne({branches: req.body.branches})
-            //     if(checkBranches!=null){
-            //       return {message  :   "branch already existed"}                     
-
-            //     }
-
-
-            //     else{            
-            //       let result = await new universityDetails({branches: req.body.branches});
-            //     } 
-            //     let dbResponse = await universityDetails.branches.push({branches: req.body.branches}); 
-            //     return {message:"branch inserted successfully"}
-            //   var updatedata=await universityDetails.updateOne({universityName:req.universityName},{$set:{"branches":branches},new :true})
-            }
-            
-         
         
+            var checkUniversity= await universityDetails.findOne({universityName: req.body.universityName});
+        if(checkUniversity==null){
+            return {message : "university not found."};
+        }
+        else{
+        console.log(checkUniversity,"12344");
+        let arr1=req.body.branches;        
+        console.log(arr1.length,"========")
+
+        let arr=checkUniversity.branches;
+        console.log(arr,"++++++===")
+        for(j=0;j<arr1.length;j++){
+            let flag=true;
+
+            console.log(flag, j,"flag ---------------------- j")
+            for(i=0;i<arr.length;i++){
+                   if(arr1[j]==arr[i]){
+                    flag=false;
+                   }
+            }
+            console.log(flag,"==========================");   
+            if(flag){            
+                let dbResponse = await universityDetails.findOneAndUpdate({universityName:req.body.universityName},{$push:{branches:arr1[j]}},{new:true}); 
+                console.log(dbResponse,"dbrespoms");
+                //return {message:"branch inserted successfully"}
+            }
+            //return {message:"branch inserted successfully"}
+
+        }
+        return {message:"branch inserted successfully"}
+ 
+        }            
+
     }catch(err){
         throw err;
     }
 }
 
+async function fcnDeleteOneUniversityBranch(req){
+    try{
+        var check= await universityDetails.findOne({universityName: req.body.universityName})
+        if(check==null){
+            console.log(check, "123")
+          return {message:"university not found"} 
+        }
+        else{ 
+
+            let arr=check.branches;
+            let arr1=req.body.branches;
+            console.log(arr,"===========")
+            console.log(arr1, "++++++")
+            for(j=0;j<arr1.length;j++){
+            for(i=0;i<arr.length;i++){
+                   console.log(req.body.branches)
+                   if(arr1[j]==arr[i]){
+                    let dbResponse = await universityDetails.updateOne({universityName: req.body.universityName},{$pull:{"branches":arr[i]}});
+
+                    //return {message:"branch deleted"}
+                   }
+                }
+            }
+                    //return {message:"branch not found"}
+
+                    return {message:"branch deleted"}
+   
+                 
+            
+        }
+      }catch(err){
+        throw err;
+      }
+}
+
+
 exports.universityService ={
     fcnInsertUniversity : fcnInsertUniversity,
     fcnGetOneUniversity:fcnGetOneUniversity,
     fcnGetAllUniversities:fcnGetAllUniversities,
-    funUpdateUniversityBranch:funUpdateUniversityBranch
+    funUpdateUniversityBranch:funUpdateUniversityBranch,      
+    fcnDeleteOneUniversityBranch:fcnDeleteOneUniversityBranch
+
 }

@@ -1,13 +1,14 @@
 const mongoose=require("mongoose")
 // module.exports = mongoose.model('students',{
 //     studentName: {type: String},
-//     branchName: {type: String},
+//     branchName: {type: Array},
 //     studentRollNo: {type: Number},
 // });
 const studentSchema = new mongoose.Schema({
     studentName: {type: String},
     branchName: {type: String},
-    studentRollNo: {type: Number},
+    universityName: {type: String},
+    //studentRollNo: {type: Number}
 
 })
 
